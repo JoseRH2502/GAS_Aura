@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 using UnrealBuildTool;
-using System.Collections.Generic;
 
 public class AuraTarget : TargetRules
 {
@@ -10,6 +9,6 @@ public class AuraTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V4;
 
-		ExtraModuleNames.AddRange( new string[] { "Aura" } );
+		ExtraModuleNames.AddRange(new[] { "Aura" });
 	}
 }
