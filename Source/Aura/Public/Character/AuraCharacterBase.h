@@ -25,7 +25,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = GAS)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
