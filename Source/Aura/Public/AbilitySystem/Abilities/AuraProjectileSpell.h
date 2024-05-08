@@ -23,7 +23,7 @@ protected:
 
 
 	UFUNCTION(BlueprintCallable, Category="Projetile")
-	void SpawnProjectile();
+	void SpawnProjectile(const FVector& ProjectileTargetLocation);
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
 };
