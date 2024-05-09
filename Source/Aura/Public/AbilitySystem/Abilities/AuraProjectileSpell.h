@@ -9,7 +9,7 @@
 /**
  * 
  */
-
+class UGameplayEffect;
 class AAuraProjectile;
 
 UCLASS()
@@ -24,6 +24,10 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category="Projetile")
 	void SpawnProjectile(const FVector& ProjectileTargetLocation);
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 };
