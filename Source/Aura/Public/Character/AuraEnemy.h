@@ -30,6 +30,8 @@ public:
 	/** Combat Interface */
 	virtual int32 GetPlayerLevel() override;
 	/** end Combat Interface */
+
+	virtual void Die() override;
 	
 	UPROPERTY(BlueprintAssignable) 
 	FOnAttributeChangedSignature OnHealthChanged;
@@ -44,6 +46,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category="Combat")
 	float BaseWalkSpeed = 250.f;
+
+	UPROPERTY(BlueprintReadOnly, Category="Combat")
+	float LifeSpan = 5.f;
 	
 protected:
 	virtual void BeginPlay() override;
