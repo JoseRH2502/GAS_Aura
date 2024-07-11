@@ -27,6 +27,9 @@ public:
 	/*Enemy Interface */
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
+
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() const override;
 	/** end Enemy Interface */
 	
 	/** Combat Interface */
@@ -51,6 +54,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category="Combat")
 	float LifeSpan = 5.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat")
+	TObjectPtr<AActor> CombatTarget;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -70,6 +76,7 @@ protected:
 	UPROPERTY(EditAnywhere,  Category = "AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;
 
+	
 	UPROPERTY()
 	TObjectPtr<AAuraAIController> AuraAIController;
 	
