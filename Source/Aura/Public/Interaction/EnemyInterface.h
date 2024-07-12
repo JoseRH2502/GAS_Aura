@@ -6,6 +6,8 @@
 #include "UObject/Interface.h"
 #include "EnemyInterface.generated.h"
 
+
+
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UEnemyInterface : public UInterface
