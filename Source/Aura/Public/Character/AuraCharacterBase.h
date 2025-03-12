@@ -62,6 +62,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName TailSocketName;
+	
 	bool bDead = false;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = GAS)
