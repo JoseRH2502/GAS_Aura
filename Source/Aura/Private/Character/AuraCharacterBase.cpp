@@ -7,6 +7,7 @@
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/AuraPlayerController.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -21,6 +22,55 @@ AAuraCharacterBase::AAuraCharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+TTuple<FVector, FVector> AAuraCharacterBase::GetForwardAndRightVector()
+{
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		FRotator ControlRotation = AuraPlayerController->GetControlRotation();
+		
+		FRotator YawRotation(0.0f, ControlRotation.Yaw, 0.0f);
+		FVector ForwardVector = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		FVector RightVector = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		return MakeTuple(ForwardVector, RightVector);
+	}
+    
+	return MakeTuple(FVector::ZeroVector, FVector::ZeroVector);
+
+}
+
+FRotator AAuraCharacterBase::RotationPrediction(float InputX, float InputY)
+{
+	TTuple<FVector, FVector> DirectionVectors = GetForwardAndRightVector();
+	
+	FVector ForwardVector = DirectionVectors.Get<0>();
+	FVector RightVector = DirectionVectors.Get<1>();
+	FVector MovementDirection = (ForwardVector * InputY) + (RightVector * InputX);
+	FVector ActorLocation = GetActorLocation();
+	FVector TargetLocation = ActorLocation + MovementDirection;
+	FVector DirectionUnitVector = (TargetLocation - ActorLocation).GetSafeNormal();
+	return DirectionUnitVector.Rotation();
+
+}
+
+void AAuraCharacterBase::CharacterRotation(float RotationSpeed)
+{
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		float InputX =  AuraPlayerController->MovementInput.X;
+		float InputY =  AuraPlayerController->MovementInput.Y;
+
+		UE_LOG(LogTemp, Warning, TEXT("InputX: %f, InputY: %f"), InputX, InputY);
+		
+		FRotator TargetRotation = RotationPrediction(InputX, InputY);
+		FRotator CurrentRotation = GetActorRotation();
+		FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, GetWorld()->GetDeltaSeconds(), RotationSpeed);
+		
+		SetActorRotation(NewRotation);
+	}
+		
+	
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
@@ -69,6 +119,16 @@ FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FG
 		}
 	}
 	return FTaggedMontage();
+}
+
+int32 AAuraCharacterBase::GetMinionCount_Implementation()
+{
+	return MinionCount;
+}
+
+void AAuraCharacterBase::IncrementMinionCount_Implementation(int32 Amount)
+{
+	MinionCount += Amount;
 }
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()

@@ -33,6 +33,9 @@ public:
 	AAuraPlayerController();
 	virtual void PlayerTick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
+	FVector2D MovementInput;
+	
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(float damageAmount, ACharacter* TargetCharacter, bool bBlockHit, bool bCriticalHit);
 protected:
@@ -41,11 +44,11 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, Category="Input")
-	TObjectPtr<UInputMappingContext> AuraContext;
-
-	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
-
+	
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputMappingContext> AuraContext;
+	
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ShiftAction;
 
