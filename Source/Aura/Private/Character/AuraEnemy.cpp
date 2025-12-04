@@ -71,6 +71,11 @@ AActor* AAuraEnemy::GetCombatTarget_Implementation() const
 	return CombatTarget;
 }
 
+int32 AAuraEnemy::GetPlayerLevel_Implementation()
+{
+	return Level;
+}
+
 
 void AAuraEnemy::BeginPlay()
 {
@@ -142,10 +147,7 @@ void AAuraEnemy::InitializeDefaultAttributes() const
 	UAuraAbilitySystemLibrary::InitializeDefaultAttribute(this, CharacterClass, Level, AbilitySystemComponent);
 }
 
-int32 AAuraEnemy::GetPlayerLevel()
-{
-	return Level;
-}
+
 
 void AAuraEnemy::Die()
 {
